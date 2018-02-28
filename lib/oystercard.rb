@@ -12,7 +12,7 @@ class Oystercard
     @balance = 0
     @limit = limit
     @entry_station = nil
-    @journeys = Journeys.new
+    @journeys = []
   end
 
   def top_up(amount)
@@ -28,7 +28,7 @@ class Oystercard
   def touch_out(station)
     deduct(MINIMUM_FARE)
     @entry_station = nil
-    @journeys.list << {:entry_station => :station}
+    @journeys << {:entry_station => :station}
   end
 
   def in_journey?
