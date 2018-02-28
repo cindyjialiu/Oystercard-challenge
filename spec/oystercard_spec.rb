@@ -25,7 +25,7 @@ require 'journey'
       end
 
       it 'should raise an error when exceed the limit' do
-        expect { oystercard.top_up(100) }.to raise_error("Sorry, you've reached the limit of £#{Oystercard::DEFAULT_LIMIT}")
+        expect { oystercard.top_up(100) }.to raise_error("Sorry, you've reached the limit of £#{oystercard.limit}")
       end
 
       it 'should raise an error when below minimum balance' do
@@ -70,15 +70,6 @@ require 'journey'
       it 'logs the entry station' do
         oystercard.touch_in(entry_station)
         expect(oystercard.entry_station).to eq entry_station
-      end
-    end
-
-    describe 'journey history' do
-
-      it 'should store the entry station and the exit station in a hash' do
-
-        oystercard.touch_out(exit_station)
-        expect(oystercard.journeys).to include {{"entry_station" => "exit_station"}}
       end
     end
 

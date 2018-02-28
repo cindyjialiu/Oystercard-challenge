@@ -6,17 +6,17 @@ class Oystercard
   MINIMUM_BALANCE = 1
   MINIMUM_FARE = 5
 
-  attr_accessor :balance, :minimum_balance, :entry_station, :journeys
+  attr_accessor :balance, :minimum_balance, :entry_station, :journey, :limit
 
-  def initialize(limit = DEFAULT_LIMIT)
+  def initialize(journey = Journey.new)
     @balance = 0
-    @limit = limit
     @entry_station = nil
-    @journeys = []
+    @limit = DEFAULT_LIMIT
+    @journey = journey
   end
 
   def top_up(amount)
-    raise "Sorry, you've reached the limit of £#{@limit}" if @balance + amount > @limit
+    raise "Sorry, you've reached the limit of £#{@limit}" if @balance + amount > DEFAULT_LIMIT
     @balance += amount
   end
 
@@ -27,8 +27,8 @@ class Oystercard
 
   def touch_out(station)
     deduct(MINIMUM_FARE)
+    @journey.add(@entry_station, station)
     @entry_station = nil
-    @journeys << {:entry_station => :station}
   end
 
   def in_journey?
