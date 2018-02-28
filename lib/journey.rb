@@ -1,8 +1,8 @@
-class Journey
-attr_accessor :journeys
+class Journeys
+attr_accessor :list
 
   def initialize
-    @journeys = []
+    @list = []
   end
 
 end

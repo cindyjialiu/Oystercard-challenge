@@ -3,11 +3,10 @@ require 'oystercard'
 
 describe Journey do
   oystercard = Oystercard.new ### Need to make this a double at some point
-  subject(:journey) {described_class.new}
+  subject(:journeys) {described_class.new}
 
-  before do
-    oystercard.top_up(1)
-  end
-
+  it 'should return an empty list of journeys by default' do
+      expect(list.journeys).to be_empty
+    end
 
 end

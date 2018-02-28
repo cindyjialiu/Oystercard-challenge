@@ -8,7 +8,7 @@ require 'journey'
     subject(:oystercard_empty) {described_class.new}
     let(:station_dbl) { double :station }
     let(:exit_station_dbl) { double :station }
-    let(:journey) { {station_dbl: station_dbl, exit_station_dbl: exit_station_dbl }}
+    #let(:journey) { {station_dbl: station_dbl, exit_station_dbl: exit_station_dbl }}
 
     before do
       oystercard.balance = 1
@@ -63,8 +63,10 @@ require 'journey'
         oystercard.touch_in(station_dbl)
         expect(oystercard.in_journey?).to be_truthy
       end
+    end
 
     describe 'keep track of journey history' do
+
       it 'logs the entry station' do
         oystercard.touch_in(station_dbl)
         expect(oystercard.entry_station).to eq station_dbl
@@ -73,22 +75,13 @@ require 'journey'
 
     describe 'journey history' do
 
-      it 'should return an empty list of journeys by default' do
-        expect(oystercard.history).to be_empty
-      end
-
       it 'should store the entry station and the exit station in a hash' do
         entry_station = Station.new("entry_station")
         exit_station = Station.new("exit_station")
-        oystercard.touch_in(entry_station)
+        oystercard.entry_station = entry_station
         oystercard.touch_out(exit_station)
-        expect(oystercard.history).to include [{:entry_station => :exit_station}]
+        expect(oystercard.journeys.list).to include {{"entry_station" => "exit_station"}}
       end
-
-
-    end
-
-
     end
 
   end
