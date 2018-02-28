@@ -22,17 +22,17 @@ class Oystercard
 
   def touch_in(station)
     raise "Sorry, not enough credit in balance £#{@balance}" if @balance < MINIMUM_BALANCE
+    @journey.add_entry(station)
     @entry_station = station
+    @journey.entry = station
   end
 
   def touch_out(station)
-    deduct(MINIMUM_FARE)
-    @journey.add(@entry_station, station)
+    @journey.in_journey?
+    @journey.add_exit(station)
+    deduct(@journey.fare)
     @entry_station = nil
-  end
-
-  def in_journey?
-    @entry_station !=nil
+    @journey.entry = nil
   end
 
   private

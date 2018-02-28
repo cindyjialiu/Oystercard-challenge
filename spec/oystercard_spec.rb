@@ -39,30 +39,10 @@ require 'journey'
 
       it 'should reduce the balance by minimum fare when touch_out' do
         oystercard.top_up(1)
+        oystercard.touch_in(entry_station)
         expect { oystercard.touch_out(exit_station) }.to change {oystercard.balance}.by(-Oystercard::MINIMUM_FARE)
       end
 
-    end
-
-    describe "check and change journey status" do
-      it "should start the journey when touch in" do
-        oystercard.touch_in(entry_station)
-        expect(oystercard.in_journey?).to be_truthy
-      end
-
-      it 'should end the journey when touch out' do
-        oystercard.touch_out(exit_station)
-        expect(oystercard.in_journey?).to be_falsey
-      end
-
-      it 'should be false when not in journey' do
-        expect(oystercard.in_journey?).to be_falsey
-      end
-
-      it 'should be true when in journey' do
-        oystercard.touch_in(entry_station)
-        expect(oystercard.in_journey?).to be_truthy
-      end
     end
 
     describe 'keep track of journey history' do
